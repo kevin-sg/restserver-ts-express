@@ -2,6 +2,7 @@ import express, { Application } from "express";
 import cors from "cors";
 import morgan from "morgan";
 import { userRoutes } from "../routes";
+import { connectToDatabase } from "../database";
 
 interface Paths {
     users: string;
@@ -12,18 +13,25 @@ class Server {
     public port: number;
     public paths: Paths;
 
-    constructor() {
+    public constructor() {
         this.app = express();
         this.port = parseInt(process.env.PORT as string, 10);
         this.paths = {
             users: "/api/users",
         };
 
+        // Connect to DB
+        this.connectDB();
+
         // Middleware
         this.middleware();
 
         // Routes
         this.routes();
+    }
+
+    public async connectDB() {
+        await connectToDatabase();
     }
 
     private middleware() {

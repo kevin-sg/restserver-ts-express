@@ -5,14 +5,12 @@ POST  http://localhost:8080/api/users
 Content-Type: application/json
 
 {
-    "id": "123",
-    "firstName": "Kevin",
-    "lastName": "SG",
-    "years": 23
+    "name": "Kevin",
+    "email": ""
 }
 
 ###
-PUT http://localhost:8080/api/users
+PUT http://localhost:8080/api/users/123
 
 ###
-DELETE  http://localhost:8080/api/users
+DELETE  http://localhost:8080/api/users/123

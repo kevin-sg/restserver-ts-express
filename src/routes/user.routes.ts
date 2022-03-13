@@ -12,7 +12,7 @@ class UserRoute {
         // PUT /api/user/:id
         RouterUser.put("/:id", UserController.upateUser);
         // DELETE /api/user/:id
-        RouterUser.delete("/", UserController.deleteUser);
+        RouterUser.delete("/:i", UserController.deleteUser);
     }
 }
 
