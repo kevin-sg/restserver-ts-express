@@ -1,0 +1,18 @@
+GET http://localhost:8080/api/users?q=hola&apikey=123445
+
+###
+POST  http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+    "id": "123",
+    "firstName": "Kevin",
+    "lastName": "SG",
+    "years": 23
+}
+
+###
+PUT http://localhost:8080/api/users
+
+###
+DELETE  http://localhost:8080/api/users

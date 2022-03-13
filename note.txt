@@ -1,0 +1,62 @@
+// Routes
+class Post {
+     
+    constructor() {
+ 
+        this.state = {
+            id: 1
+        };
+ 
+        Router.get('/:id', this.getPost); 
+        Router.post('/:id', this.setPost);
+ 
+    }
+ 
+    getPost = (req, res) => {
+       res.json(
+            {
+                response: "get",
+                id: this.state.id
+            }
+        );
+    }
+ 
+    setPost = (req, res) => {
+ 
+        this.state.id = req.params.id;
+ 
+        res.json(
+            {
+                response: "post",
+                id: this.state.id
+            }
+        );
+    }
+ 
+}
+ 
+new Post();
+ 
+module.exports = Router;
+
+// Controller
+import { Router, Request, Response, NextFunction } from 'express';
+
+class Register {
+
+    constructor() {    
+      this.register = this.register.bind(this);
+    }
+
+    register(req: Request, res: Response, next: NextFunction) {
+      // ... removed for brevity
+    }
+}
+
+export default new Register();
+-----
+import registerCtrl from '../controllers/auth/register.controller.js';
+
+// ... removed for brevity
+
+router.post('/register', registerCtrl.register);
