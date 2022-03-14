@@ -48,7 +48,9 @@ class Server {
 
     public listen() {
         this.app.listen(this.port, () => {
-            console.log(`Server listening on PORT: http://localhost:${this.port}`);
+            console.log(
+                `Server listening on PORT: http://localhost:${this.port}`
+            );
         });
     }
 }

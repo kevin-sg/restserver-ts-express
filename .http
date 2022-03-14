@@ -1,16 +1,27 @@
-GET http://localhost:8080/api/users?q=hola&apikey=123445
+GET http://localhost:8080/api/users?page=1
 
 ###
 POST  http://localhost:8080/api/users
 Content-Type: application/json
 
 {
-    "name": "Kevin",
-    "email": ""
+    "name": "test 15",
+    "email": "test15@test.com",
+    "password": "123456",
+    "role": "USER_ROLE"
 }
 
 ###
-PUT http://localhost:8080/api/users/123
+PUT http://localhost:8080/api/users/622f34feacda59bed1e229fc
+Content-Type: application/json
+
+{
+    "name": "test 16",
+    "email": "test16@test.com",
+    "password": "123456",
+    "state": true,
+    "role": "USER_ROLE"
+}
 
 ###
-DELETE  http://localhost:8080/api/users/123
+DELETE  http://localhost:8080/api/users/622f34feacda59bed1e229fc

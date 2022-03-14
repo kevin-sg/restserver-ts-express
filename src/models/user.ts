@@ -1,14 +1,14 @@
 import mongoose, { model, Model, Schema } from "mongoose";
-import { IUser } from "interfaces";
+import { IUser } from "../interfaces";
 
 const UserSChema = new Schema(
     {
     name    : { type: String, required: [true, 'Name is required'], trim: true },
     email   : { type: String, required: [true, 'Email is required'], trim: true, unique: true },
     password: { type: String, required: [true, 'Password is required'], trim: true },
-    img     : { type: String},
+    img     : { type: String },
 
-    role    : { type: String, required: true, emun: ['ADMIN_ROLE', 'USER_ROLE'] },
+    role    : { type: String, required: true, emun: ['ADMIN_ROLE', 'SHOP_ROLE', 'USER_ROLE'] },
     
     state   : { type: Boolean, default: true },
     google  : { type: Boolean, default: false }
@@ -17,10 +17,9 @@ const UserSChema = new Schema(
 );
 
 UserSChema.methods.toJSON = function () {
-    const { __v, _id, ...user } = this.toObject()
-    user.id = _id
-    // return { user, id: _id}
-    return user
+    const { __v, _id, password, ...user } = this.toObject()
+
+    return { id: _id, ...user }
 }
 
 const User: Model<IUser> = mongoose.models.User || model("User", UserSChema);
