@@ -5,8 +5,7 @@ interface ExtendUserRequest extends Request {
     user?: IUser;
 }
 
-export const isAdminRole = (req: ExtendUserRequest, res: Response, next: NextFunction) => {
-    const { user } = req;
+export const isAdminRole = ({ user }: ExtendUserRequest, res: Response, next: NextFunction) => {
     if (!user) {
         return res.status(500).json({ error: "Se requiere verificar el rol sin válidar el token" });
     }
@@ -25,8 +24,7 @@ export const isAdminRole = (req: ExtendUserRequest, res: Response, next: NextFun
 };
 
 export const hasValidRole = ([...roles]: string[]) => {
-    return (req: ExtendUserRequest, res: Response, next: NextFunction) => {
-        const { user } = req;
+    return ({ user }: ExtendUserRequest, res: Response, next: NextFunction) => {
         if (!user) {
             res.status(500).json({ error: "Se requiere verificar el rol sin válidar el token" });
             return;

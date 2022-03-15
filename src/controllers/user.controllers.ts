@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 
 import { IUser } from "../interfaces";
+import { paginationResponse } from "../helpers";
 import { User } from "../models";
 
 interface QueryParams {
@@ -20,9 +21,8 @@ class UserControllers {
     public async getUsers(req: Request, res: Response): Promise<void> {
         try {
             const { page = 1, per_page = 5 }: QueryParams = req.query;
-            const skipePage = parseInt(page as string, 10);
-            const limitPage = parseInt(per_page as string, 10);
-            const itemsPage = skipePage > 0 ? limitPage * (skipePage - 1) : 0;
+
+            const { skipePage, limitPage, itemsPage } = paginationResponse(page, per_page);
 
             const [total_count, results] = await Promise.all([
                 User.countDocuments({ state: true }),
