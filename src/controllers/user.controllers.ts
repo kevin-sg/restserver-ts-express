@@ -9,7 +9,7 @@ interface QueryParams {
     per_page?: string | number;
 }
 
-class UserController {
+class UserControllers {
     public constructor() {
         this.getUsers = this.getUsers.bind(this);
         this.postUser = this.postUser.bind(this);
@@ -31,7 +31,7 @@ class UserController {
 
             res.status(200).json({
                 success: true,
-                page: skipePage,
+                page: skipePage > 0 ? skipePage : 1,
                 per_page: limitPage,
                 total_count,
                 results,
@@ -86,4 +86,4 @@ class UserController {
     }
 }
 
-export default new UserController();
+export default new UserControllers();

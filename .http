@@ -1,18 +1,34 @@
-GET http://localhost:8080/api/users?page=1
+
+GET http://localhost:8080/api/auth/login
+
+###
+POST  http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "test@test.com",
+    "password": "123456",
+}
+
+
+
+###
+GET http://localhost:8080/api/users
 
 ###
 POST  http://localhost:8080/api/users
 Content-Type: application/json
 
 {
-    "name": "test 15",
-    "email": "test15@test.com",
+    "name": "test 16",
+    "email": "test16@test.com",
     "password": "123456",
     "role": "USER_ROLE"
 }
 
+
 ###
-PUT http://localhost:8080/api/users/622f34feacda59bed1e229fc
+PUT http://localhost:8080/api/users/622f46b581688a7cb06441e8
 Content-Type: application/json
 
 {
@@ -24,4 +40,4 @@ Content-Type: application/json
 }
 
 ###
-DELETE  http://localhost:8080/api/users/622f34feacda59bed1e229fc
+DELETE  http://localhost:8080/api/users/622f46b581688a7cb06441e8

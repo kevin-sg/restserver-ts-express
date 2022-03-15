@@ -19,7 +19,7 @@ const UserSChema = new Schema(
 UserSChema.methods.toJSON = function () {
     const { __v, _id, password, ...user } = this.toObject()
 
-    return { id: _id, ...user }
+    return { uid: _id, ...user }
 }
 
 const User: Model<IUser> = mongoose.models.User || model("User", UserSChema);

@@ -1,9 +1,9 @@
 import { Router, IRouter } from "express";
 import { check } from "express-validator";
 
-import { validationField } from "../middleware";
-import { UserController } from "../controllers";
+import { validationField, validateJWT, isAdminRole } from "../middleware";
 import { isValidEmail, isValidRole, isValidUserById } from "../helpers";
+import { UserControllers } from "../controllers";
 
 class UserRoute {
     public userRoute: IRouter;
@@ -11,19 +11,19 @@ class UserRoute {
     public constructor() {
         this.userRoute = Router();
 
-        this.customGet();
-        this.customPost();
-        this.customPut();
-        this.customDelete();
+        this.routeGet();
+        this.routePost();
+        this.routePut();
+        this.routeDelete();
     }
 
     // GET /api/users
-    private customGet() {
-        this.userRoute.get("/", UserController.getUsers);
+    private routeGet() {
+        this.userRoute.get("/", UserControllers.getUsers);
     }
 
-    // POST /api/user
-    private customPost() {
+    // POST /api/users
+    private routePost() {
         this.userRoute.post(
             "/",
             [
@@ -36,12 +36,12 @@ class UserRoute {
                 check("role").custom(isValidRole),
                 validationField,
             ],
-            UserController.postUser
+            UserControllers.postUser
         );
     }
 
-    // PUT /api/user/:id
-    private customPut() {
+    // PUT /api/users/:id
+    private routePut() {
         this.userRoute.put(
             "/:id",
             [
@@ -50,20 +50,22 @@ class UserRoute {
                 check("role").custom(isValidRole),
                 validationField,
             ],
-            UserController.updateUser
+            UserControllers.updateUser
         );
     }
 
-    // DELETE /api/user/:id
-    private customDelete() {
+    // DELETE /api/users/:id
+    private routeDelete() {
         this.userRoute.delete(
             "/:id",
             [
+                validateJWT,
+                isAdminRole,
                 check("id", "No es un ID válido de Mongo").isMongoId(),
                 check("id").custom(isValidUserById),
                 validationField,
             ],
-            UserController.deleteUser
+            UserControllers.deleteUser
         );
     }
 }

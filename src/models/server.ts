@@ -1,11 +1,14 @@
 import express, { Application } from "express";
 import cors from "cors";
 import morgan from "morgan";
-import { userRoutes } from "../routes";
+import cookieParser from "cookie-parser";
+
+import { userRoutes, authRoutes } from "../routes";
 import { connectToDatabase } from "../database";
 
 interface Paths {
     users: string;
+    auth: string;
 }
 
 class Server {
@@ -17,6 +20,7 @@ class Server {
         this.app = express();
         this.port = parseInt(process.env.PORT as string, 10);
         this.paths = {
+            auth: "/api/auth",
             users: "/api/users",
         };
 
@@ -35,22 +39,23 @@ class Server {
     }
 
     private middleware() {
-        // Directory public
-        this.app.use(express.static("public"));
         this.app.use(cors());
+        this.app.use(cookieParser());
         this.app.use(morgan("tiny"));
         this.app.use(express.json());
+
+        // Directory public
+        this.app.use(express.static("public"));
     }
 
     private routes() {
+        this.app.use(this.paths.auth, authRoutes);
         this.app.use(this.paths.users, userRoutes);
     }
 
     public listen() {
         this.app.listen(this.port, () => {
-            console.log(
-                `Server listening on PORT: http://localhost:${this.port}`
-            );
+            console.log(`Server listening on PORT: http://localhost:${this.port}`);
         });
     }
 }
