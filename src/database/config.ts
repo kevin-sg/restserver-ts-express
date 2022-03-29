@@ -1,7 +1,7 @@
 import mongoose, { ConnectOptions } from "mongoose";
 import "dotenv/config";
 
-const cluster = process.env.MONGO_URL as string;
+const CLUSTER = process.env.MONGO_URL as string;
 
 const option = {
     useNewUrlParser: true,
@@ -10,7 +10,7 @@ const option = {
 
 export const connectToDatabase = async (): Promise<void> => {
     try {
-        await mongoose.connect(cluster, option);
+        await mongoose.connect(CLUSTER, option);
 
         console.log("Connected to MongoDB");
     } catch (err) {

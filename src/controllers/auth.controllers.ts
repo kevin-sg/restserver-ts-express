@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 
-import { generateJWT } from "../helpers";
 import { User } from "../models";
+import { generateJWT } from "../helpers";
 
 class AuthControllers {
     public constructor() {

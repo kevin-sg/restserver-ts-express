@@ -1,17 +1,14 @@
-import { Request, Response, NextFunction } from "express";
-import { IUser, IRole } from "../interfaces";
+import { IRole } from "../interfaces";
+import { TypeValidedMiddleware, TypeHasValidRole } from "./contants";
 
-interface ExtendUserRequest extends Request {
-    user?: IUser;
-}
-
-export const isAdminRole = ({ user }: ExtendUserRequest, res: Response, next: NextFunction) => {
+export const isAdminRole: TypeValidedMiddleware = ({ user }, res, next) => {
     if (!user) {
         return res.status(500).json({ error: "Se requiere verificar el rol sin válidar el token" });
     }
 
     try {
         const { name, role } = user;
+
         if (role !== IRole.Admin) {
             return res.status(401).json({ error: `${name} no es administrador` });
         }
@@ -23,8 +20,8 @@ export const isAdminRole = ({ user }: ExtendUserRequest, res: Response, next: Ne
     }
 };
 
-export const hasValidRole = ([...roles]: string[]) => {
-    return ({ user }: ExtendUserRequest, res: Response, next: NextFunction) => {
+export const hasValidRole: TypeHasValidRole = ([...roles]) => {
+    return ({ user }, res, next) => {
         if (!user) {
             res.status(500).json({ error: "Se requiere verificar el rol sin válidar el token" });
             return;
@@ -32,6 +29,7 @@ export const hasValidRole = ([...roles]: string[]) => {
 
         try {
             const { name, role } = user;
+
             if (!roles.includes(role)) {
                 return res.status(401).json({ error: `${name} no es administrador` });
             }

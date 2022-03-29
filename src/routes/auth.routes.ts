@@ -1,9 +1,9 @@
 import { Router, IRouter } from "express";
 import { check } from "express-validator";
 
+import { isValidAuthLogin } from "../helpers";
 import { validationField } from "../middleware";
 import { AuthControllers } from "../controllers";
-import { isValidAuthLogin } from "../helpers";
 
 class AuthRoute {
     public authRouter: IRouter;

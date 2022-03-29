@@ -1,14 +1,10 @@
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 
-import { IUser } from "../interfaces";
-import { paginationResponse } from "../helpers";
 import { User } from "../models";
-
-interface QueryParams {
-    page?: string | number;
-    per_page?: string | number;
-}
+import { IUser } from "../interfaces";
+import { TypeQueryParams } from "./contants";
+import { paginationResponse } from "../helpers";
 
 class UserControllers {
     public constructor() {
@@ -20,9 +16,9 @@ class UserControllers {
 
     public async getUsers(req: Request, res: Response): Promise<void> {
         try {
-            const { page = 1, per_page = 5 }: QueryParams = req.query;
+            const { page = 1, per_page = 5 } = req.query as TypeQueryParams;
 
-            const { skipePage, limitPage, itemsPage } = paginationResponse(page, per_page);
+            const { skipePage, limitPage, itemsPage } = paginationResponse({ page, per_page });
 
             const [total_count, results] = await Promise.all([
                 User.countDocuments({ state: true }),
@@ -43,7 +39,7 @@ class UserControllers {
 
     public async postUser(req: Request, res: Response): Promise<void> {
         try {
-            const { email, password, ...rest }: IUser = req.body;
+            const { email, password, ...rest } = req.body as IUser;
 
             const user = new User({ email, password, ...rest });
             user.password = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
@@ -59,7 +55,7 @@ class UserControllers {
     public async updateUser(req: Request, res: Response): Promise<void> {
         try {
             const { id } = req.params;
-            const { _id, google, ...rest }: IUser = req.body;
+            const { _id, google, ...rest } = req.body as IUser;
 
             if (rest.password) {
                 rest.password = bcrypt.hashSync(rest.password, bcrypt.genSaltSync(10));

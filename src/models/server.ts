@@ -3,25 +3,24 @@ import cors from "cors";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 
-import { userRoutes, authRoutes } from "../routes";
+import { TypePaths } from "./contants";
 import { connectToDatabase } from "../database";
+import { userRoutes, authRoutes } from "../routes";
 
-interface Paths {
-    users: string;
-    auth: string;
-}
+const HOST_PORT = parseInt(process.env.PORT as string, 10);
 
 class Server {
-    public app: Application;
-    public port: number;
-    public paths: Paths;
+    private port: number;
+    private app: Application;
+    private paths: TypePaths;
 
     public constructor() {
         this.app = express();
-        this.port = parseInt(process.env.PORT as string, 10);
+        this.port = HOST_PORT;
         this.paths = {
-            auth: "/api/auth",
-            users: "/api/users",
+            Auth: "/api/auth",
+            Users: "/api/users",
+            Products: "/api/users",
         };
 
         // Connect to DB
@@ -34,7 +33,7 @@ class Server {
         this.routes();
     }
 
-    public async connectDB() {
+    private async connectDB() {
         await connectToDatabase();
     }
 
@@ -43,14 +42,12 @@ class Server {
         this.app.use(cookieParser());
         this.app.use(morgan("tiny"));
         this.app.use(express.json());
-
-        // Directory public
         this.app.use(express.static("public"));
     }
 
     private routes() {
-        this.app.use(this.paths.auth, authRoutes);
-        this.app.use(this.paths.users, userRoutes);
+        this.app.use(this.paths.Auth, authRoutes);
+        this.app.use(this.paths.Users, userRoutes);
     }
 
     public listen() {

@@ -1,11 +1,13 @@
 import jwt from "jsonwebtoken";
 
-type GenerateJWT = ({ uid }: { uid: string }) => Promise<string | undefined> | never;
+import { TypeGenerateJWT } from "./contants";
 
-export const generateJWT: GenerateJWT = (uid) => {
+const SECRET_TOKEN = process.env.JWT_SECRET_SEED as string;
+
+export const generateJWT: TypeGenerateJWT = (payload) => {
     return new Promise((res, rej) => {
-        // TOKEN expires in 4h
-        jwt.sign(uid, process.env.JWT_SECRET_SEED as string, { expiresIn: "4h" }, (err, token) => {
+        // TOKEN expires in 4 hours
+        jwt.sign(payload, SECRET_TOKEN, { expiresIn: "4h" }, (err, token) => {
             if (err) rej(err.message);
 
             res(token);

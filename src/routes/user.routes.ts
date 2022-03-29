@@ -1,9 +1,9 @@
 import { Router, IRouter } from "express";
 import { check } from "express-validator";
 
+import { UserControllers } from "../controllers";
 import { validationField, validateJWT, isAdminRole } from "../middleware";
 import { isValidEmail, isValidRole, isValidUserById } from "../helpers";
-import { UserControllers } from "../controllers";
 
 class UserRoute {
     public userRoute: IRouter;
@@ -30,7 +30,7 @@ class UserRoute {
                 check("name", "El nombre es obligatorio").notEmpty(),
                 check("email", "El email no es válido").isEmail(),
                 check("email").custom(isValidEmail),
-                check("password", "La contraseña debe ser más de 5 carácteres")
+                check("password", "La contraseña debe tener como minimo: 5 carácteres")
                     .notEmpty()
                     .isLength({ min: 6 }),
                 check("role").custom(isValidRole),

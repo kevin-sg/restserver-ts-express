@@ -2,7 +2,7 @@
 
 ## Installation
 
-Using the package.json
+Using NPM
 
 ```
 npm install
